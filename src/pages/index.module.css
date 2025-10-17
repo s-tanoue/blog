@@ -1,0 +1,43 @@
+.heroBanner {
+  background: linear-gradient(135deg, var(--ifm-color-primary), #845ef7);
+  color: #fff;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
+.features {
+  padding: 2rem 0 4rem;
+}
+
+.featureList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.featureCard {
+  background: var(--ifm-card-background-color);
+  border-radius: 0.75rem;
+  padding: 1.75rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+
+.buttons {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}

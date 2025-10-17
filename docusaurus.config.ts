@@ -1,0 +1,90 @@
+import {themes as prismThemes} from 'prism-react-renderer';
+import type {Config} from '@docusaurus/types';
+import type * as Preset from '@docusaurus/preset-classic';
+
+const config: Config = {
+  title: '開発ブログ',
+  tagline: 'Docusaurus で作り直しました',
+  favicon: 'img/logo.svg',
+  url: 'https://example.com',
+  baseUrl: '/',
+  organizationName: 'example',
+  projectName: 'blog',
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
+  i18n: {
+    defaultLocale: 'ja',
+    locales: ['ja'],
+  },
+  presets: [
+    [
+      'classic',
+      {
+        docs: {
+          sidebarPath: './sidebars.ts',
+          editUrl: 'https://github.com/example/blog/tree/main/',
+        },
+        blog: {
+          showReadingTime: true,
+          editUrl: 'https://github.com/example/blog/tree/main/',
+        },
+        theme: {
+          customCss: './src/css/custom.css',
+        },
+      } satisfies Preset.Options,
+    ],
+  ],
+  themeConfig: {
+    image: 'img/logo.svg',
+    navbar: {
+      title: '開発ブログ',
+      logo: {
+        alt: 'Blog Logo',
+        src: 'img/logo.svg',
+      },
+      items: [
+        {type: 'docSidebar', sidebarId: 'tutorialSidebar', position: 'left', label: 'ドキュメント'},
+        {to: '/blog', label: 'ブログ', position: 'left'},
+        {
+          href: 'https://github.com/example/blog',
+          label: 'GitHub',
+          position: 'right',
+        },
+      ],
+    },
+    footer: {
+      style: 'dark',
+      links: [
+        {
+          title: 'コンテンツ',
+          items: [
+            {
+              label: 'ドキュメント',
+              to: '/docs/intro',
+            },
+            {
+              label: 'ブログ',
+              to: '/blog',
+            },
+          ],
+        },
+        {
+          title: 'コミュニティ',
+          items: [
+            {
+              label: 'GitHub',
+              href: 'https://github.com/example/blog',
+            },
+          ],
+        },
+      ],
+      copyright: `Copyright © ${new Date().getFullYear()} example`,
+    },
+    prism: {
+      theme: prismThemes.github,
+      darkTheme: prismThemes.dracula,
+    },
+  },
+};
+
+export default config;
