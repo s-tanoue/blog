@@ -24,6 +24,18 @@ npm run build
 
 生成された静的ファイルは `build` ディレクトリに出力されます。
 
+## GitHub Pages へのデプロイ
+
+`main` ブランチへ push されると、GitHub Actions (`Deploy to GitHub Pages`) が自動的にビルドして GitHub Pages へ公開します。初回は [Pages の設定画面](https://github.com/example/blog/settings/pages) で **Build and deployment** を "GitHub Actions" に変更してください。
+
+ローカルから手動でデプロイする場合は以下を実行します。
+
+```bash
+npm run deploy
+```
+
+サイトは `https://example.github.io/blog/` にホストされ、`noindex` メタタグにより検索エンジンでのインデックス化を防ぎます。
+
 ## Docker を利用する
 
 ```bash
