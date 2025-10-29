@@ -11,7 +11,7 @@ const config: Config = {
   organizationName: 's-tanoue',
   projectName: 'blog',
   deploymentBranch: 'gh-pages',
-  noIndex: true,
+  trailingSlash: false,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   i18n: {
