@@ -26,20 +26,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-          cache: yarn
-
-      - name: Enable Corepack 📦
-        run: corepack enable
-
-      - name: Prepare Yarn Classic 🧶
-        run: corepack prepare yarn@1.22.22 --activate
+          cache: npm
 
       - name: Install dependencies 👨🏻‍💻
-        run: yarn install
+        run: npm ci
 
       - name: Run linter 👀
-        run: yarn lint
+        run: npm run lint
 
       - name: Build site 🏗️
-        run: yarn build
+        run: npm run build
         
