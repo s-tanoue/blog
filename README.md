@@ -26,15 +26,21 @@ npm run build
 
 ## GitHub Pages へのデプロイ
 
-`main` ブランチへ push されると、GitHub Actions (`Deploy to GitHub Pages`) が自動的にビルドして GitHub Pages へ公開します。初回は [Pages の設定画面](https://github.com/s-tanoue/blog/settings/pages) で **Build and deployment** を "GitHub Actions" に変更してください。
+`master` ブランチへ push されると、GitHub Actions (`Deploy to GitHub Pages`) が自動的にビルドして GitHub Pages へ公開します。
 
-ローカルから手動でデプロイする場合は以下を実行します。
+### 初回セットアップ
+
+1. [Pages の設定画面](https://github.com/s-tanoue/blog/settings/pages) を開く
+2. **Source** (ソース) を "GitHub Actions" に変更
+3. `master` ブランチへ push すると、自動的にデプロイが開始されます
+
+### ローカルから手動でデプロイ
 
 ```bash
 npm run deploy
 ```
 
-サイトは `https://s-tanoue.github.io/blog/` にホストされ、`noindex` メタタグにより検索エンジンでのインデックス化を防ぎます。
+サイトは `https://s-tanoue.github.io/blog/` にホストされます。
 
 ## Docker を利用する
 
