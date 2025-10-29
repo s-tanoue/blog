@@ -6,9 +6,9 @@ const config: Config = {
   title: '開発ブログ',
   tagline: 'Docusaurus で作り直しました',
   favicon: 'img/logo.svg',
-  url: 'https://example.github.io',
+  url: 'https://s-tanoue.github.io',
   baseUrl: '/blog/',
-  organizationName: 'example',
+  organizationName: 's-tanoue',
   projectName: 'blog',
   deploymentBranch: 'gh-pages',
   noIndex: true,
@@ -24,11 +24,11 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/example/blog/tree/main/',
+          editUrl: 'https://github.com/s-tanoue/blog/tree/main/',
         },
         blog: {
           showReadingTime: true,
-          editUrl: 'https://github.com/example/blog/tree/main/',
+          editUrl: 'https://github.com/s-tanoue/blog/tree/main/',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -48,7 +48,7 @@ const config: Config = {
         {type: 'docSidebar', sidebarId: 'tutorialSidebar', position: 'left', label: 'ドキュメント'},
         {to: '/blog', label: 'ブログ', position: 'left'},
         {
-          href: 'https://github.com/example/blog',
+          href: 'https://github.com/s-tanoue/blog',
           label: 'GitHub',
           position: 'right',
         },
@@ -75,12 +75,12 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/example/blog',
+              href: 'https://github.com/s-tanoue/blog',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} example`,
+      copyright: `Copyright © ${new Date().getFullYear()} s-tanoue`,
     },
     prism: {
       theme: prismThemes.github,
