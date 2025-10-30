@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
-import {useVisibleBlogSidebarItems} from '@docusaurus/theme-common/internal';
 import {NavbarSecondaryMenuFiller} from '@docusaurus/theme-common';
 
 function BlogSidebarMobileSecondaryMenu({sidebar}) {
-  const items = useVisibleBlogSidebarItems(sidebar.items);
+  // Show all items on mobile instead of filtering
+  const items = sidebar.items;
   return (
     <ul className="menu__list">
       {items.map((item) => (
