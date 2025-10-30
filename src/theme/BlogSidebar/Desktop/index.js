@@ -2,11 +2,11 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
-import {useVisibleBlogSidebarItems} from '@docusaurus/theme-common/internal';
 import styles from './styles.module.css';
 
 export default function BlogSidebarDesktop({sidebar}) {
-  const items = useVisibleBlogSidebarItems(sidebar.items);
+  // Show all items on desktop instead of filtering
+  const items = sidebar.items;
 
   return (
     <aside className="col col--2">
