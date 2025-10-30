@@ -12,6 +12,11 @@
   width: 100%;
 }
 
+/* 片方しかない場合は残りのスペースを埋める */
+.paginatorContainer > *:only-child {
+  grid-column: 1 / -1;
+}
+
 /* モバイル対応: 縦並びで表示 */
 @media (max-width: 768px) {
   .paginatorContainer {
