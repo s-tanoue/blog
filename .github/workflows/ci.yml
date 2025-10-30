@@ -28,7 +28,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Clear Docusaurus cache
-        run: rm -rf .docusaurus build
+        run: rm -rf .docusaurus build node_modules/.cache
 
       - name: Install dependencies 👨🏻‍💻
         run: npm ci
@@ -38,4 +38,6 @@ jobs:
 
       - name: Build site 🏗️
         run: npm run build
+        env:
+          NODE_ENV: production
         

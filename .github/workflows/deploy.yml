@@ -26,15 +26,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Clear Docusaurus cache
-        run: rm -rf .docusaurus build
+        run: rm -rf .docusaurus build node_modules/.cache
       - name: Install dependencies
         run: npm ci
       - name: Build website
         run: npm run build
+        env:
+          NODE_ENV: production
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
