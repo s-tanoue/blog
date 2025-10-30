@@ -30,7 +30,7 @@ const config: Config = {
           routeBasePath: '/', // ブログをルートに配置
           showReadingTime: true,
           editUrl: 'https://github.com/s-tanoue/blog/tree/main/',
-          postsPerPage: 1, // 1ページあたり1件の記事を表示
+          postsPerPage: 10, // 1ページあたり10件の記事を表示
           blogSidebarCount: 'ALL', // サイドバーに全ての記事を表示
         },
         theme: {
