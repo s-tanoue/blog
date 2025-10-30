@@ -27,6 +27,7 @@ const config: Config = {
           editUrl: 'https://github.com/s-tanoue/blog/tree/main/',
         },
         blog: {
+          routeBasePath: '/', // ブログをルートに配置
           showReadingTime: true,
           editUrl: 'https://github.com/s-tanoue/blog/tree/main/',
         },
@@ -46,7 +47,7 @@ const config: Config = {
       },
       items: [
         {type: 'docSidebar', sidebarId: 'tutorialSidebar', position: 'left', label: 'ドキュメント'},
-        {to: '/blog', label: 'ブログ', position: 'left'},
+        {to: '/', label: 'ブログ', position: 'left'},
         {
           href: 'https://github.com/s-tanoue/blog',
           label: 'GitHub',
@@ -66,7 +67,7 @@ const config: Config = {
             },
             {
               label: 'ブログ',
-              to: '/blog',
+              to: '/',
             },
           ],
         },
