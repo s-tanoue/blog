@@ -26,6 +26,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+          cache: 'npm'
 
       - name: Clear Docusaurus cache
         run: rm -rf .docusaurus build node_modules/.cache
