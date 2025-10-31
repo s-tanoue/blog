@@ -183,32 +183,28 @@ def evaluate_response(question, answer, criteria):
     criteria_text = "\n".join([f"- {c}" for c in criteria])
 
     # 評価プロンプトの構築
-    evaluation_prompt = f"""
-あなたは回答品質を評価する専門家です。
-以下の質問に対する回答を、指定された基準で評価してください。
-
-【質問】
-{question}
-
-【回答】
-{answer}
-
-【評価基準】
-{criteria_text}
-
-【出力形式】
-以下の形式で評価してください：
-スコア: [1-10の数値]
-理由: [評価の根拠を具体的に説明]
-改善点: [あれば改善提案]
-"""
+    evaluation_prompt = (
+        "あなたは回答品質を評価する専門家です。\n"
+        "以下の質問に対する回答を、指定された基準で評価してください。\n\n"
+        "【質問】\n"
+        f"{question}\n\n"
+        "【回答】\n"
+        f"{answer}\n\n"
+        "【評価基準】\n"
+        f"{criteria_text}\n\n"
+        "【出力形式】\n"
+        "以下の形式で評価してください：\n"
+        "スコア: [1-10の数値]\n"
+        "理由: [評価の根拠を具体的に説明]\n"
+        "改善点: [あれば改善提案]\n"
+    )
 
     # Judge LLMに評価を依頼
     response = client.chat.completions.create(
         model="gpt-4o",  # 評価には高性能モデルを推奨
         messages=[
-            {"role": "system", "content": "あなたは公平で厳格な評価者です。"},
-            {"role": "user", "content": evaluation_prompt}
+            dict(role="system", content="あなたは公平で厳格な評価者です。"),
+            dict(role="user", content=evaluation_prompt)
         ],
         temperature=0  # 評価の一貫性のため低温度に設定
     )
@@ -251,40 +247,38 @@ def evaluate_with_structured_output(question, answer, criteria):
 
     criteria_text = "\n".join([f"- {c}" for c in criteria])
 
-    evaluation_prompt = f"""
-以下の質問と回答を評価し、JSON形式で結果を返してください。
-
-【質問】
-{question}
-
-【回答】
-{answer}
-
-【評価基準】
-{criteria_text}
-
-【出力形式】
-{{
+    output_schema = """{
   "overall_score": [1-10の数値],
-  "criteria_scores": {{
+  "criteria_scores": {
     "accuracy": [1-10],
     "completeness": [1-10],
     "clarity": [1-10]
-  }},
+  },
   "reasoning": "[評価の理由]",
   "strengths": ["強み1", "強み2"],
   "weaknesses": ["弱み1", "弱み2"],
   "suggestions": ["改善提案1", "改善提案2"]
-}}
-"""
+}"""
+
+    evaluation_prompt = (
+        "以下の質問と回答を評価し、JSON形式で結果を返してください。\n\n"
+        "【質問】\n"
+        f"{question}\n\n"
+        "【回答】\n"
+        f"{answer}\n\n"
+        "【評価基準】\n"
+        f"{criteria_text}\n\n"
+        "【出力形式】\n"
+        f"{output_schema}\n"
+    )
 
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "あなたは評価結果を構造化して返す評価者です。"},
-            {"role": "user", "content": evaluation_prompt}
+            dict(role="system", content="あなたは評価結果を構造化して返す評価者です。"),
+            dict(role="user", content=evaluation_prompt)
         ],
-        response_format={"type": "json_object"},
+        response_format=dict(type="json_object"),
         temperature=0
     )
 
@@ -458,27 +452,7 @@ def evaluate_rag_response(query: str, retrieved_context: str, answer: str) -> Di
     - 幻覚（Hallucination）の有無
     """
 
-    evaluation_prompt = f"""
-以下のRAGシステムの出力を評価してください。
-
-【ユーザーの質問】
-{query}
-
-【検索されたコンテキスト】
-{retrieved_context}
-
-【生成された回答】
-{answer}
-
-【評価基準】
-1. 関連性: 回答は検索されたコンテキストに基づいているか（1-10）
-2. 正確性: 回答は質問に正確に答えているか（1-10）
-3. 幻覚の有無: コンテキストにない情報を含んでいないか（1-10、高いほど幻覚が少ない）
-4. 完全性: 質問に対して十分な情報を提供しているか（1-10）
-
-【出力形式】
-JSON形式で以下を返してください：
-{{
+    output_schema = """{
   "relevance_score": [1-10],
   "accuracy_score": [1-10],
   "faithfulness_score": [1-10],
@@ -486,17 +460,34 @@ JSON形式で以下を返してください：
   "overall_score": [1-10],
   "has_hallucination": [true/false],
   "reasoning": "[評価理由]"
-}}
-"""
+}"""
+
+    evaluation_prompt = (
+        "以下のRAGシステムの出力を評価してください。\n\n"
+        "【ユーザーの質問】\n"
+        f"{query}\n\n"
+        "【検索されたコンテキスト】\n"
+        f"{retrieved_context}\n\n"
+        "【生成された回答】\n"
+        f"{answer}\n\n"
+        "【評価基準】\n"
+        "1. 関連性: 回答は検索されたコンテキストに基づいているか（1-10）\n"
+        "2. 正確性: 回答は質問に正確に答えているか（1-10）\n"
+        "3. 幻覚の有無: コンテキストにない情報を含んでいないか（1-10、高いほど幻覚が少ない）\n"
+        "4. 完全性: 質問に対して十分な情報を提供しているか（1-10）\n\n"
+        "【出力形式】\n"
+        "JSON形式で以下を返してください：\n"
+        f"{output_schema}\n"
+    )
 
     client = OpenAI()
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "あなたはRAGシステムの評価専門家です。"},
-            {"role": "user", "content": evaluation_prompt}
+            dict(role="system", content="あなたはRAGシステムの評価専門家です。"),
+            dict(role="user", content=evaluation_prompt)
         ],
-        response_format={"type": "json_object"},
+        response_format=dict(type="json_object"),
         temperature=0
     )
 
@@ -536,24 +527,7 @@ def evaluate_summarization(original_text: str, summary: str) -> Dict:
     - 読みやすさ
     """
 
-    evaluation_prompt = f"""
-以下の要約を評価してください。
-
-【原文】
-{original_text}
-
-【要約】
-{summary}
-
-【評価基準】
-1. 網羅性: 原文の重要な情報を含んでいるか（1-10）
-2. 簡潔性: 冗長でなく、要点がまとまっているか（1-10）
-3. 忠実性: 原文の意味を正確に反映しているか（1-10）
-4. 読みやすさ: 理解しやすい表現か（1-10）
-
-【出力形式】
-JSON形式で以下を返してください：
-{{
+    output_schema = """{
   "coverage_score": [1-10],
   "conciseness_score": [1-10],
   "faithfulness_score": [1-10],
@@ -562,17 +536,32 @@ JSON形式で以下を返してください：
   "missing_points": ["欠落している重要ポイント"],
   "unnecessary_details": ["不要な詳細"],
   "reasoning": "[評価理由]"
-}}
-"""
+}"""
+
+    evaluation_prompt = (
+        "以下の要約を評価してください。\n\n"
+        "【原文】\n"
+        f"{original_text}\n\n"
+        "【要約】\n"
+        f"{summary}\n\n"
+        "【評価基準】\n"
+        "1. 網羅性: 原文の重要な情報を含んでいるか（1-10）\n"
+        "2. 簡潔性: 冗長でなく、要点がまとまっているか（1-10）\n"
+        "3. 忠実性: 原文の意味を正確に反映しているか（1-10）\n"
+        "4. 読みやすさ: 理解しやすい表現か（1-10）\n\n"
+        "【出力形式】\n"
+        "JSON形式で以下を返してください：\n"
+        f"{output_schema}\n"
+    )
 
     client = OpenAI()
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "あなたは要約品質の評価専門家です。"},
-            {"role": "user", "content": evaluation_prompt}
+            dict(role="system", content="あなたは要約品質の評価専門家です。"),
+            dict(role="user", content=evaluation_prompt)
         ],
-        response_format={"type": "json_object"},
+        response_format=dict(type="json_object"),
         temperature=0
     )
 
@@ -605,28 +594,7 @@ def evaluate_chatbot_response(
         for msg in conversation_history
     ])
 
-    evaluation_prompt = f"""
-カスタマーサポートチャットボットの応答を評価してください。
-
-【会話履歴】
-{history_text}
-
-【最新の応答】
-{latest_response}
-
-【会社のガイドライン】
-{company_guidelines}
-
-【評価基準】
-1. 適切性: ガイドラインに沿っているか（1-10）
-2. 有用性: ユーザーの問題解決に役立つか（1-10）
-3. トーン: 適切で丁寧な口調か（1-10）
-4. 安全性: 不適切な内容や機密情報を含まないか（1-10）
-5. 文脈理解: 会話の流れを理解しているか（1-10）
-
-【出力形式】
-JSON形式で以下を返してください：
-{{
+    output_schema = """{
   "appropriateness_score": [1-10],
   "helpfulness_score": [1-10],
   "tone_score": [1-10],
@@ -636,17 +604,35 @@ JSON形式で以下を返してください：
   "issues": ["問題点のリスト"],
   "suggestions": ["改善提案のリスト"],
   "reasoning": "[評価理由]"
-}}
-"""
+}"""
+
+    evaluation_prompt = (
+        "カスタマーサポートチャットボットの応答を評価してください。\n\n"
+        "【会話履歴】\n"
+        f"{history_text}\n\n"
+        "【最新の応答】\n"
+        f"{latest_response}\n\n"
+        "【会社のガイドライン】\n"
+        f"{company_guidelines}\n\n"
+        "【評価基準】\n"
+        "1. 適切性: ガイドラインに沿っているか（1-10）\n"
+        "2. 有用性: ユーザーの問題解決に役立つか（1-10）\n"
+        "3. トーン: 適切で丁寧な口調か（1-10）\n"
+        "4. 安全性: 不適切な内容や機密情報を含まないか（1-10）\n"
+        "5. 文脈理解: 会話の流れを理解しているか（1-10）\n\n"
+        "【出力形式】\n"
+        "JSON形式で以下を返してください：\n"
+        f"{output_schema}\n"
+    )
 
     client = OpenAI()
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "あなたはカスタマーサポート品質の評価専門家です。"},
-            {"role": "user", "content": evaluation_prompt}
+            dict(role="system", content="あなたはカスタマーサポート品質の評価専門家です。"),
+            dict(role="user", content=evaluation_prompt)
         ],
-        response_format={"type": "json_object"},
+        response_format=dict(type="json_object"),
         temperature=0
     )
 
@@ -680,30 +666,7 @@ def evaluate_generated_code(
             for tc in test_cases
         ])
 
-    evaluation_prompt = f"""
-以下の生成されたコードを評価してください。
-
-【タスク】
-{task_description}
-
-【生成されたコード】
-```python
-{generated_code}
-```
-
-【テストケース】
-{test_cases_text}
-
-【評価基準】
-1. 正確性: タスク要件を満たしているか（1-10）
-2. コード品質: 読みやすく、保守しやすいか（1-10）
-3. 効率性: アルゴリズムが効率的か（1-10）
-4. ベストプラクティス: Pythonのベストプラクティスに従っているか（1-10）
-5. エラーハンドリング: 適切なエラー処理があるか（1-10）
-
-【出力形式】
-JSON形式で以下を返してください：
-{{
+    output_schema = """{
   "correctness_score": [1-10],
   "quality_score": [1-10],
   "efficiency_score": [1-10],
@@ -713,17 +676,37 @@ JSON形式で以下を返してください：
   "bugs": ["発見されたバグ"],
   "improvements": ["改善提案"],
   "reasoning": "[評価理由]"
-}}
-"""
+}"""
+
+    evaluation_prompt = (
+        "以下の生成されたコードを評価してください。\n\n"
+        "【タスク】\n"
+        f"{task_description}\n\n"
+        "【生成されたコード】\n"
+        "```python\n"
+        f"{generated_code}\n"
+        "```\n\n"
+        "【テストケース】\n"
+        f"{test_cases_text}\n\n"
+        "【評価基準】\n"
+        "1. 正確性: タスク要件を満たしているか（1-10）\n"
+        "2. コード品質: 読みやすく、保守しやすいか（1-10）\n"
+        "3. 効率性: アルゴリズムが効率的か（1-10）\n"
+        "4. ベストプラクティス: Pythonのベストプラクティスに従っているか（1-10）\n"
+        "5. エラーハンドリング: 適切なエラー処理があるか（1-10）\n\n"
+        "【出力形式】\n"
+        "JSON形式で以下を返してください：\n"
+        f"{output_schema}\n"
+    )
 
     client = OpenAI()
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "あなたはコードレビューの専門家です。"},
-            {"role": "user", "content": evaluation_prompt}
+            dict(role="system", content="あなたはコードレビューの専門家です。"),
+            dict(role="user", content=evaluation_prompt)
         ],
-        response_format={"type": "json_object"},
+        response_format=dict(type="json_object"),
         temperature=0
     )
 
@@ -791,37 +774,33 @@ response = client.chat.completions.create(
 評価基準を理解させるために、良い評価例と悪い評価例を示します。
 
 ```python
-evaluation_prompt = f"""
-あなたは回答品質を評価する専門家です。
-
-【評価例1】
-質問: Pythonのリストと タプルの違いは？
-回答: リストは可変で、タプルは不変です。
-評価:
-- 正確性: 6/10（正しいが不十分）
-- 完全性: 4/10（詳細が欠けている）
-- 明瞭性: 8/10（簡潔で分かりやすい）
-総合スコア: 6/10
-理由: 基本的な違いは述べているが、使用例やパフォーマンスの違いなど、より詳細な説明が必要。
-
-【評価例2】
-質問: Pythonのリストとタプルの違いは？
-回答: リストは[]で作成する可変オブジェクトで、要素の追加・削除・変更が可能です。
-タプルは()で作成する不変オブジェクトで、一度作成すると変更できません。
-リストは動的なデータ、タプルは固定データに適しています。
-評価:
-- 正確性: 10/10（完全に正確）
-- 完全性: 9/10（ほぼ完全）
-- 明瞭性: 10/10（非常に分かりやすい）
-総合スコア: 9.5/10
-理由: 違いを明確に説明し、使用場面も示している。優れた回答。
-
-【評価対象】
-質問: {question}
-回答: {answer}
-
-上記の例を参考に、評価してください。
-"""
+evaluation_prompt = (
+    "あなたは回答品質を評価する専門家です。\n\n"
+    "【評価例1】\n"
+    "質問: Pythonのリストと タプルの違いは？\n"
+    "回答: リストは可変で、タプルは不変です。\n"
+    "評価:\n"
+    "- 正確性: 6/10（正しいが不十分）\n"
+    "- 完全性: 4/10（詳細が欠けている）\n"
+    "- 明瞭性: 8/10（簡潔で分かりやすい）\n"
+    "総合スコア: 6/10\n"
+    "理由: 基本的な違いは述べているが、使用例やパフォーマンスの違いなど、より詳細な説明が必要。\n\n"
+    "【評価例2】\n"
+    "質問: Pythonのリストとタプルの違いは？\n"
+    "回答: リストは[]で作成する可変オブジェクトで、要素の追加・削除・変更が可能です。\n"
+    "タプルは()で作成する不変オブジェクトで、一度作成すると変更できません。\n"
+    "リストは動的なデータ、タプルは固定データに適しています。\n"
+    "評価:\n"
+    "- 正確性: 10/10（完全に正確）\n"
+    "- 完全性: 9/10（ほぼ完全）\n"
+    "- 明瞭性: 10/10（非常に分かりやすい）\n"
+    "総合スコア: 9.5/10\n"
+    "理由: 違いを明確に説明し、使用場面も示している。優れた回答。\n\n"
+    "【評価対象】\n"
+    f"質問: {question}\n"
+    f"回答: {answer}\n\n"
+    "上記の例を参考に、評価してください。\n"
+)
 ```
 
 ### 5. バイアスを軽減する
@@ -882,9 +861,9 @@ def ensemble_evaluation(question: str, answer: str) -> Dict:
     """複数のJudge LLMを使ってアンサンブル評価"""
 
     judges = [
-        {"model": "gpt-4o", "provider": "openai"},
-        {"model": "claude-3-5-sonnet-20241022", "provider": "anthropic"},
-        {"model": "gemini-pro", "provider": "google"}
+        dict(model="gpt-4o", provider="openai"),
+        dict(model="claude-3-5-sonnet-20241022", provider="anthropic"),
+        dict(model="gemini-pro", provider="google")
     ]
 
     evaluations = []
@@ -901,11 +880,11 @@ def ensemble_evaluation(question: str, answer: str) -> Dict:
     # 集計（平均、中央値、分散など）
     aggregate_score = statistics.median([e["score"] for e in evaluations])
 
-    return {
-        "aggregate_score": aggregate_score,
-        "individual_scores": evaluations,
-        "agreement": calculate_agreement(evaluations)
-    }
+    return dict(
+        aggregate_score=aggregate_score,
+        individual_scores=evaluations,
+        agreement=calculate_agreement(evaluations)
+    )
 ```
 
 ### 7. 人間評価との相関を検証する
@@ -945,34 +924,29 @@ def validate_judge_correlation(
 Judge LLMに評価理由を段階的に説明させることで、評価の質が向上します。
 
 ```python
-evaluation_prompt = f"""
-以下の回答を評価してください。
-
-【質問】
-{question}
-
-【回答】
-{answer}
-
-【評価手順】
-ステップ1: 回答の主要なポイントを箇条書きで抽出してください。
-ステップ2: 各ポイントが正確かどうかを検証してください。
-ステップ3: 欠落している重要な情報があるか確認してください。
-ステップ4: 上記の分析に基づいて、各評価基準のスコアを決定してください。
-ステップ5: 総合スコアと改善提案を提示してください。
-
-【出力形式】
-思考プロセス:
-[ステップごとの分析]
-
-評価結果:
-- 正確性: [スコア]/10
-- 完全性: [スコア]/10
-- 明瞭性: [スコア]/10
-総合スコア: [スコア]/10
-理由: [評価の根拠]
-改善提案: [具体的な提案]
-"""
+evaluation_prompt = (
+    "以下の回答を評価してください。\n\n"
+    "【質問】\n"
+    f"{question}\n\n"
+    "【回答】\n"
+    f"{answer}\n\n"
+    "【評価手順】\n"
+    "ステップ1: 回答の主要なポイントを箇条書きで抽出してください。\n"
+    "ステップ2: 各ポイントが正確かどうかを検証してください。\n"
+    "ステップ3: 欠落している重要な情報があるか確認してください。\n"
+    "ステップ4: 上記の分析に基づいて、各評価基準のスコアを決定してください。\n"
+    "ステップ5: 総合スコアと改善提案を提示してください。\n\n"
+    "【出力形式】\n"
+    "思考プロセス:\n"
+    "[ステップごとの分析]\n\n"
+    "評価結果:\n"
+    "- 正確性: [スコア]/10\n"
+    "- 完全性: [スコア]/10\n"
+    "- 明瞭性: [スコア]/10\n"
+    "総合スコア: [スコア]/10\n"
+    "理由: [評価の根拠]\n"
+    "改善提案: [具体的な提案]\n"
+)
 ```
 
 ---
@@ -1225,8 +1199,8 @@ async def batch_evaluate(items: List[Dict]) -> List[Dict]:
 
 # 使用例
 items = [
-    {"question": q1, "answer": a1},
-    {"question": q2, "answer": a2},
+    dict(question=q1, answer=a1),
+    dict(question=q2, answer=a2),
     # ...
 ]
 
