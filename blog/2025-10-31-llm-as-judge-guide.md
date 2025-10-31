@@ -684,15 +684,13 @@ def evaluate_generated_code(
 以下の生成されたコードを評価してください。
 
 【タスク】
-{task_description}
+\{task_description\}
 
 【生成されたコード】
-```python
-{generated_code}
-```
+\{generated_code\}
 
 【テストケース】
-{test_cases_text}
+\{test_cases_text\}
 
 【評価基準】
 1. 正確性: タスク要件を満たしているか（1-10）
@@ -703,7 +701,7 @@ def evaluate_generated_code(
 
 【出力形式】
 JSON形式で以下を返してください：
-{{
+\{\{
   "correctness_score": [1-10],
   "quality_score": [1-10],
   "efficiency_score": [1-10],
@@ -713,17 +711,17 @@ JSON形式で以下を返してください：
   "bugs": ["発見されたバグ"],
   "improvements": ["改善提案"],
   "reasoning": "[評価理由]"
-}}
+\}\}
 """
 
     client = OpenAI()
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "あなたはコードレビューの専門家です。"},
-            {"role": "user", "content": evaluation_prompt}
+            \{"role": "system", "content": "あなたはコードレビューの専門家です。"\},
+            \{"role": "user", "content": evaluation_prompt\}
         ],
-        response_format={"type": "json_object"},
+        response_format=\{"type": "json_object"\},
         temperature=0
     )
 
