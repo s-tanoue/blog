@@ -6,6 +6,7 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+draft: true
 ---
 
 コードレビューは開発プロセスの重要な一部ですが、レビュアーの時間を大幅に消費し、プロジェクトのボトルネックになることがあります。AI を活用した自動コードレビューを **CI/CD パイプライン**に組み込むことで、レビューの品質を保ちながら、開発速度を向上させることができます。この記事では、**LiteLLM** を使って AI コードレビューを GitHub Actions に統合し、コスト管理とセキュリティを両立させる方法を解説します。
