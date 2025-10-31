@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: '開発ブログ',
-  tagline: 'Docusaurus で作り直しました',
+  tagline: 'ソフトウェア開発に役立つ情報を残していきます',
   favicon: 'img/logo.svg',
   url: 'https://s-tanoue.github.io',
   baseUrl: '/blog/',
