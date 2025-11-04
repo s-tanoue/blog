@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
 draft: true
 ---
 

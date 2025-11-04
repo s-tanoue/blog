@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
 ---
 
 2025年10月29日、AI コードエディタの先駆者である **Cursor** がバージョン 2.0 をリリースしました。今回のアップデートは単なる機能追加ではなく、AI コーディングツールの設計思想そのものを再定義する大きな転換点となっています。独自開発の **Composer モデル**と、**マルチエージェント並列実行**を中核に据えたこの新バージョンは、開発者の生産性を 2〜3 倍に引き上げるとされています。本記事では、Cursor 2.0 の革新的な機能と、それが開発現場にもたらす変化を詳しく解説します。

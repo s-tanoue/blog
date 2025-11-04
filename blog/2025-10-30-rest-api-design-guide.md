@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - アーキテクチャ・設計
 ---
 
 REST APIは現代のWebアプリケーションにおいて、システム間連携の標準的な方式となっています。しかし「RESTとは何か」を正しく理解せずに設計すると、保守性が低く使いにくいAPIになってしまいます。この記事では、RESTの基礎概念から具体的な設計原則、良い構造のAPI設計まで体系的に解説します。

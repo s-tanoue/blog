@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - アーキテクチャ・設計
 ---
 
 コードが散らかって「どこに何を書けばいいか分からない...」と悩んだことはありませんか？DDD（ドメイン駆動設計）のレイヤードアーキテクチャは、そんな悩みを解決する設計手法です。この記事では、レストランの例え話と実際のコードを使って、初心者でも分かるように丁寧に解説します。

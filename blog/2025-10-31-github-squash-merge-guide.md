@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - Git・バージョン管理
 ---
 
 GitHub でプルリクエストをマージする際、**スカッシュマージ（Squash and Merge）**を使うと、複数のコミットを 1 つにまとめて綺麗なコミット履歴を維持できます。本記事では、スカッシュマージの基本から、コンフリクトが起きやすいケースとその対処法まで、実践的な内容を詳しく解説します。

@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
 ---
 
 LLM（大規模言語モデル）を活用したアプリケーションの開発において、**可視化・監視・評価**は非常に重要です。しかし、LLMアプリケーションのデバッグや品質管理は従来のソフトウェアとは異なる難しさがあります。この記事では、LLMオブザーバビリティのオープンソースプラットフォーム**Langfuse**について、その機能、使い方、ユースケースを徹底解説します。

@@ -6,6 +6,9 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
+  - テスト
 ---
 
 Claude Code や Cursor などの AI コーディングツールが急速に普及し、開発者の生産性は劇的に向上しています。しかし、AI が生成したコードをどのようにテストし、品質を保証するかは新たな課題となっています。本記事では、AI 生成コードに特化したテスト戦略、レビュー観点、自動テストとの組み合わせ方、そしてセキュリティチェックのベストプラクティスを詳しく解説します。

@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - アーキテクチャ・設計
 ---
 
 モノリシックなシステムから脱却し、スケーラブルで保守性の高いマイクロサービスを構築したいと思っていませんか？この記事では、DDD（ドメイン駆動設計）を起点に、境界づけられたコンテキスト、サービス分割、イベント駆動アーキテクチャまで、マイクロサービス設計の基礎を体系的に解説します。

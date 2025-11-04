@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - アーキテクチャ・設計
 ---
 
 コードは書かれる回数よりも読まれる回数の方が圧倒的に多いため、**可読性**はソフトウェア開発における最重要要素の一つです。Robert C. Martin（Uncle Bob）の名著「Clean Code」の原則に基づき、保守性が高く、理解しやすいコードを書くための実践的な方法を解説します。

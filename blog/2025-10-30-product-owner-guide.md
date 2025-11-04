@@ -6,6 +6,8 @@ authors:
   title: プロダクトマネージャー
   url: https://example.com/authors/product-owner
   image_url: https://avatars.githubusercontent.com/u/5?v=4
+categories:
+  - スクラム・アジャイル
 ---
 
 プロダクトオーナー（PO）は、スクラムチームにおいてプロダクトの価値を最大化する責任を持つ重要な役割です。しかし、「具体的に何をすればいいのか」「ステークホルダーとチームの板挟みになる」といった悩みを抱えるプロダクトオーナーも少なくありません。本記事では、プロダクトオーナーが実際に何をするのか、どのように価値を最大化するのかを実践的に解説します。

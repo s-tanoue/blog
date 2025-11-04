@@ -6,6 +6,9 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
+  - アーキテクチャ・設計
 ---
 
 LLM（大規模言語モデル）を活用した**AI Agent**は、2025年において最も注目されている技術領域の一つです。単なるチャットボットを超えて、自律的にタスクを実行し、ツールを使いこなし、複雑な問題を解決できるAI Agentの設計には、確立されたアーキテクチャパターンとデザインパターンの理解が不可欠です。この記事では、AI Agentのアーキテクチャと主要なデザインパターンを徹底解説します。

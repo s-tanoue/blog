@@ -6,6 +6,8 @@ authors:
   title: Developer Advocate
   url: https://example.com/authors/tech-writer
   image_url: https://avatars.githubusercontent.com/u/5?v=4
+categories:
+  - テスト
 ---
 
 API開発において、テストは品質を担保する重要なプロセスです。しかし「どうやってテストすればいいの?」「どのツールを使えばいいの?」と悩む方も多いのではないでしょうか。本記事では、初心者から上級者まで使える、APIテストを簡単に実施できるツールとその実践方法を紹介します。

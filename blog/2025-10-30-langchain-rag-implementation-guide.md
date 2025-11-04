@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
 ---
 
 社内ドキュメントやナレッジベースから正確な情報を検索し、自然言語で回答を生成するRAG（Retrieval-Augmented Generation）システムは、現代の企業にとって必須のツールとなっています。この記事では、LangChainを使って本格的なRAGシステムを構築する方法を、**ベクトルストア**、**チャンク戦略**、**プロンプト設計**の3つの重要な要素に焦点を当てて解説します。

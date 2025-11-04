@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - Git・バージョン管理
 ---
 
 チーム開発において、**Git のコミットメッセージ**は単なる記録ではなく、チームメンバー間のコミュニケーションツールであり、プロジェクトの歴史を物語る重要な資産です。本記事では、なぜコミットメッセージが大切なのか、そして **Conventional Commits** という規約を使うことでどのような利点が得られるのかを解説します。

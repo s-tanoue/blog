@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - Python
 ---
 
 Pythonは動的型付け言語ですが、**型ヒント（Type Hints）**を使うことで、コードの可読性を高め、バグを事前に検出できます。型ヒントは、関数の引数や戻り値の型を明示的に指定する機能で、**静的型チェックツール**と組み合わせることで、型安全なコードが書けます。この記事では、Python型ヒントの基本から実践的な活用方法まで、初心者にもわかりやすく徹底解説します。
