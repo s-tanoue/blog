@@ -6,6 +6,8 @@ authors:
   title: エンタープライズアジャイルコーチ
   url: https://example.com/authors/agile-coach
   image_url: https://avatars.githubusercontent.com/u/3?v=4
+categories:
+  - スクラム・アジャイル
 ---
 
 複数のチームで同じプロダクトを開発する際、どのようにスクラムを適用すればよいのでしょうか。LeSS（Large-Scale Scrum）は、複雑さを増やさずに大規模開発を実現するためのフレームワークです。本記事では、LeSSの基本原則、通常のスクラムとの違い、運営のコツ、そして導入時の課題と対策を詳しく解説します。

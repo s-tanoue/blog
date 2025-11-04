@@ -6,6 +6,9 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
+  - 開発ツール
 ---
 
 Anthropicのエンジニアが実践している**複数のClaude Codeインスタンスを並列で動かす**ワークフローが話題になっています。1つのタスクを待つ間に別のタスクを進める、複数のブランチで同時に作業する、といった効率化が可能になります。この記事では、4つの実践的な方法を詳しく解説します。

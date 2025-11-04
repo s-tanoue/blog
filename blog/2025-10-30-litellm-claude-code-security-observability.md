@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
 ---
 
 AI エージェントツールの Claude Code を本格的に業務で活用する際、**API の安全な管理**と**利用状況の可視化**は避けて通れない課題です。個人利用ならシンプルでも、チーム全体で使う場合は、予算管理、アクセス制御、監査ログなどのエンタープライズ機能が必要になります。この記事では、**LiteLLM** を Claude Code と組み合わせて、セキュリティとオブザーバビリティを実現する方法を解説します。

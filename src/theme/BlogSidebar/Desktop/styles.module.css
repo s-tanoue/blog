@@ -38,6 +38,40 @@
   color: var(--ifm-color-primary) !important;
 }
 
+.categoryFilter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.categoryLabel {
+  font-size: 0.9rem;
+  font-weight: var(--ifm-font-weight-semibold);
+  color: var(--ifm-font-color-base);
+}
+
+.categorySelect {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.categorySelect:hover {
+  border-color: var(--ifm-color-primary);
+}
+
+.categorySelect:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 2px rgba(var(--ifm-color-primary-rgb), 0.25);
+}
+
 @media (max-width: 996px) {
   .sidebar {
     display: none;

@@ -6,6 +6,8 @@ authors:
   title: スクラムマスター
   url: https://example.com/authors/agile-coach
   image_url: https://avatars.githubusercontent.com/u/3?v=4
+categories:
+  - スクラム・アジャイル
 ---
 
 スプリントレトロスペクティブは、チームが自らの働き方を振り返り、改善を続けるための重要なイベントです。しかし、「毎回同じ内容になってしまう」「改善が実行されない」といった課題に直面するチームも多いのではないでしょうか。本記事では、効果的なレトロスペクティブの進め方、様々な手法、そして実際に改善につなげるためのコツを紹介します。

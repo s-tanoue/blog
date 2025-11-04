@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
 ---
 
 LLM（大規模言語モデル）アプリケーションの品質評価は、開発・運用における最も重要な課題の一つです。従来の人間による評価は時間とコストがかかり、スケールしません。そこで注目されているのが**LLM as Judge**というアプローチです。この記事では、LLM自身を評価者として活用する方法を、実装例とベストプラクティスを交えて徹底解説します。

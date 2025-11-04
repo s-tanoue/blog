@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - 開発ツール
 ---
 
 クラウドインフラの管理において、**Pulumi**は革新的なアプローチを提供する Infrastructure as Code（IaC）ツールです。従来の**Terraform**との違いを理解しながら、Pulumiの特徴、メリット、実践的な使い方を解説します。

@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - Python
 ---
 
 Pythonでコードを書いていると、「PEP 8」という言葉を聞いたことがあるかもしれません。**PEP 8は、Pythonコードを読みやすく、一貫性のあるスタイルで書くための公式ガイドライン**です。この記事では、PEP 8の基本から実践的な活用方法まで、初心者にもわかりやすく徹底解説します。

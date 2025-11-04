@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - テスト
 ---
 
 開発サイクルが高速化するにつれ、**自動テスト**は品質を守る最後の砦になっています。本記事では、自動テストがなぜ大切なのか、どのように導入すべきか、さらに API テストや E2E（End-to-End）テストをどのように設計・運用するのかを整理します。

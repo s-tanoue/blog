@@ -6,6 +6,8 @@ authors:
   title: プロダクトマネージャー
   url: https://example.com/authors/agile-writer
   image_url: https://avatars.githubusercontent.com/u/2?v=4
+categories:
+  - スクラム・アジャイル
 ---
 
 効果的なバックログを作成し、チームが価値を素早く届けるためには、良質なユーザーストーリーが欠かせません。本記事では、ユーザーストーリーの書き方、INVEST原則、受け入れ基準の作り方、そしてタスクとストーリーの切り分け方について解説します。

@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - Python
 ---
 
 Pythonの**デコレーター（Decorator）**は、関数やクラスに機能を追加する強力な仕組みです。`@`記号を使った独特の構文で、**コードの重複を減らし、関数に横断的な機能を追加**できます。この記事では、デコレーターの基本から実践的な活用方法まで、初心者にもわかりやすく徹底解説します。

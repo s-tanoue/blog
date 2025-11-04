@@ -6,6 +6,8 @@ authors:
   title: スクラムマスター
   url: https://example.com/authors/agile-coach
   image_url: https://avatars.githubusercontent.com/u/3?v=4
+categories:
+  - スクラム・アジャイル
 ---
 
 デイリースクラムは、スクラムチームが毎日実施する15分間のミーティングです。しかし、形骸化して単なる報告会になったり、時間をオーバーして非効率になったりするケースも少なくありません。本記事では、デイリースクラムを効果的に進めるための具体的な方法と、よくある落とし穴への対策を紹介します。

@@ -1,18 +1,45 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import Link from '@docusaurus/Link';
 import {NavbarSecondaryMenuFiller} from '@docusaurus/theme-common';
 
 function BlogSidebarMobileSecondaryMenu({sidebar}) {
   const ITEMS_PER_PAGE = 10;
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState('すべて');
 
-  const items = sidebar.items;
-  const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
+  // カテゴリーのリストを取得
+  const categories = useMemo(() => {
+    const categoriesSet = new Set(['すべて']);
+    sidebar.items.forEach((item) => {
+      if (item.frontMatter?.categories) {
+        item.frontMatter.categories.forEach((cat) => categoriesSet.add(cat));
+      }
+    });
+    return Array.from(categoriesSet);
+  }, [sidebar.items]);
+
+  // 選択されたカテゴリーでフィルタリング
+  const filteredItems = useMemo(() => {
+    if (selectedCategory === 'すべて') {
+      return sidebar.items;
+    }
+    return sidebar.items.filter((item) =>
+      item.frontMatter?.categories?.includes(selectedCategory)
+    );
+  }, [sidebar.items, selectedCategory]);
+
+  const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
 
   // Calculate the items to display on the current page
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentItems = items.slice(startIndex, endIndex);
+  const currentItems = filteredItems.slice(startIndex, endIndex);
+
+  // カテゴリー変更時にページをリセット
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+    setCurrentPage(1);
+  };
 
   const goToNextPage = () => {
     if (currentPage < totalPages) {
@@ -28,6 +55,40 @@ function BlogSidebarMobileSecondaryMenu({sidebar}) {
 
   return (
     <div>
+      {/* カテゴリーフィルター */}
+      <div style={{
+        padding: '1rem',
+        borderBottom: '1px solid var(--ifm-color-emphasis-200)'
+      }}>
+        <label htmlFor="category-select-mobile" style={{
+          display: 'block',
+          marginBottom: '0.5rem',
+          fontWeight: 'bold',
+          fontSize: '0.9rem'
+        }}>
+          カテゴリー:
+        </label>
+        <select
+          id="category-select-mobile"
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          style={{
+            width: '100%',
+            padding: '0.5rem',
+            fontSize: '0.9rem',
+            borderRadius: '4px',
+            border: '1px solid var(--ifm-color-emphasis-300)',
+            backgroundColor: 'var(--ifm-background-color)',
+            color: 'var(--ifm-font-color-base)'
+          }}>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <ul className="menu__list">
         {currentItems.map((item) => (
           <li key={item.permalink} className="menu__list-item">

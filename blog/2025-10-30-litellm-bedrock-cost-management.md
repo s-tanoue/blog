@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
 ---
 
 生成 AI サービスを本格的に活用する上で、**API 利用料金の管理**は避けて通れない課題です。特に Amazon Bedrock のような従量課金制のサービスでは、予期せぬコストの増加や、チームごとの利用状況の可視化が重要になります。この記事では、**LiteLLM** をゲートウェイとして活用し、Bedrock の API 料金を効率的に管理する方法を解説します。

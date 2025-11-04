@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
 ---
 
 LLM（大規模言語モデル）を活用したアプリケーション開発において、**LangChain**と**LangSmith**は欠かせないツールです。しかし、この2つのツールの違いや使い分けが分からないという声をよく聞きます。この記事では、LangChainとLangSmithの違い、それぞれの機能、そして実践的な使い方を徹底解説します。

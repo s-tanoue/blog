@@ -6,6 +6,9 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - Python
+  - 開発ツール
 ---
 
 Pythonのパッケージ管理ツールとして、**pip**や**Poetry**が広く使われてきましたが、最近注目を集めているのが**UV**です。UVは**Rustで書かれた超高速なPythonパッケージマネージャー**で、既存ツールの問題点を解決する新世代のツールです。この記事では、UVの特徴、インストール方法、実践的な使い方を徹底解説します。

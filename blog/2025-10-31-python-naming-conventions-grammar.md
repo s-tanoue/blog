@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - Python
 ---
 
 Pythonでコードを書く際、**変数名や関数名の付け方**は可読性に大きく影響します。特に**英語の文法規則に従った命名**をすることで、コードの意図が明確になり、チーム開発での理解が深まります。この記事では、英語文法の観点から、わかりやすい変数名・関数名の書き方を徹底解説します。

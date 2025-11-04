@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
 ---
 
 ローカル環境でLLM（大規模言語モデル）を動かすことで、**プライバシー保護**、**コスト削減**、**オフライン利用**が可能になります。この記事では、Alibaba Cloudが開発した高性能オープンソースLLM **Qwen** をローカルにデプロイする方法を、**GGUF**、**vLLM**、**Ollama** という3つの主要技術を使って詳しく解説します。

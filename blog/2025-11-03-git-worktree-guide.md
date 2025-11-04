@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - Git・バージョン管理
 ---
 
 複数のブランチを同時に作業したい、テスト中に別のブランチで緊急対応が必要になった…こんな経験はありませんか？**Git Worktree（ワークツリー）**を使えば、1つのリポジトリで複数のブランチを同時にチェックアウトして作業できます。この記事では、git worktreeの基本から実践的な活用法、よくあるトラブルと解決策まで、わかりやすく徹底解説します。

@@ -6,6 +6,8 @@ authors:
   title: スクラムマスター
   url: https://example.com/authors/agile-coach
   image_url: https://avatars.githubusercontent.com/u/3?v=4
+categories:
+  - スクラム・アジャイル
 ---
 
 スプリントプランニングは、スプリントの成功を左右する最も重要なイベントの1つです。しかし、「時間がかかりすぎる」「見積もりが当たらない」「何を作るのか曖昧なまま終わる」といった課題に直面するチームも少なくありません。本記事では、効果的なスプリントプランニングの進め方、見積もりのテクニック、よくある落とし穴とその対策を詳しく解説します。

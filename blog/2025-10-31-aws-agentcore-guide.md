@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
 ---
 
 AI エージェントを開発することは容易になりましたが、**本番環境で安全にスケールさせる**ことは依然として大きな課題です。セキュリティ、パフォーマンス、可観測性、メモリ管理など、エンタープライズグレードのシステムには多くの要件があります。この記事では、AWS が 2025年に正式リリースした **Amazon Bedrock AgentCore** を徹底解説し、本番環境で AI エージェントを運用するための完全ガイドを提供します。

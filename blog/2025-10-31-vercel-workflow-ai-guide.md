@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - AI・LLM
 ---
 
 AIアプリケーションの開発において、**耐久性（Durability）**、**信頼性（Reliability）**、**可観測性（Observability）**は非常に重要です。Vercelが2025年10月に公開ベータとしてリリースした**Workflow Development Kit（WDK）**は、これらの課題を解決する革新的なフレームワークです。この記事では、Vercel Workflowの基本から、マルチエージェントとRAGの実装方法まで、実践的に解説します。

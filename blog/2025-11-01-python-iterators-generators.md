@@ -6,6 +6,8 @@ authors:
   title: Maintainer
   url: https://example.com
   image_url: https://avatars.githubusercontent.com/u/1?v=4
+categories:
+  - Python
 ---
 
 Pythonの**イテレータ（Iterator）**と**ジェネレーター（Generator）**は、大量のデータを効率的に処理するための強力な仕組みです。これらを理解することで、**メモリ使用量を大幅に削減**し、無限のデータストリームを扱えるようになります。この記事では、イテレータとジェネレーターの基本から実践的な活用方法まで、初心者にもわかりやすく徹底解説します。

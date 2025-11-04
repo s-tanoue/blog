@@ -6,6 +6,8 @@ authors:
   title: プロダクトマネージャー
   url: https://example.com/authors/agile-writer
   image_url: https://avatars.githubusercontent.com/u/2?v=4
+categories:
+  - スクラム・アジャイル
 ---
 
 スクラムは、複雑で不確実性の高い課題に対処しながら価値を継続的に届けるためのフレームワークです。本記事では、スクラムのイベント、導入のステップ、プロダクトバックログの作り方、そしてスクラムを支える大切な考え方を整理します。
