@@ -39,6 +39,7 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
+  plugins: ['./plugins/blog-category-plugin.js'],
   themeConfig: {
     image: 'img/logo.svg',
     navbar: {
