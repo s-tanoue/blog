@@ -1,32 +1,51 @@
 import React, {useState, useMemo} from 'react';
 import Link from '@docusaurus/Link';
 import {NavbarSecondaryMenuFiller} from '@docusaurus/theme-common';
+import {usePluginData} from '@docusaurus/useGlobalData';
 
 function BlogSidebarMobileSecondaryMenu({sidebar}) {
   const ITEMS_PER_PAGE = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState('すべて');
 
+  // カスタムブログプラグインのデータを取得
+  const blogCategoryData = usePluginData('blog-category-plugin');
+
+  // 記事のpermalinkをキーとしたカテゴリーマップを作成
+  const categoryMap = useMemo(() => {
+    const map = {};
+    if (blogCategoryData?.blogPosts) {
+      blogCategoryData.blogPosts.forEach((post) => {
+        if (post.categories && post.categories.length > 0) {
+          map[post.permalink] = post.categories;
+        }
+      });
+    }
+    return map;
+  }, [blogCategoryData]);
+
   // カテゴリーのリストを取得
   const categories = useMemo(() => {
     const categoriesSet = new Set(['すべて']);
     sidebar.items.forEach((item) => {
-      if (item.frontMatter?.categories) {
-        item.frontMatter.categories.forEach((cat) => categoriesSet.add(cat));
+      const postCategories = categoryMap[item.permalink];
+      if (postCategories) {
+        postCategories.forEach((cat) => categoriesSet.add(cat));
       }
     });
     return Array.from(categoriesSet);
-  }, [sidebar.items]);
+  }, [sidebar.items, categoryMap]);
 
   // 選択されたカテゴリーでフィルタリング
   const filteredItems = useMemo(() => {
     if (selectedCategory === 'すべて') {
       return sidebar.items;
     }
-    return sidebar.items.filter((item) =>
-      item.frontMatter?.categories?.includes(selectedCategory)
-    );
-  }, [sidebar.items, selectedCategory]);
+    return sidebar.items.filter((item) => {
+      const postCategories = categoryMap[item.permalink];
+      return postCategories?.includes(selectedCategory);
+    });
+  }, [sidebar.items, selectedCategory, categoryMap]);
 
   const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
 

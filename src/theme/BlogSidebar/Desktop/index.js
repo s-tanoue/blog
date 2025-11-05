@@ -2,32 +2,50 @@ import React, {useState, useMemo} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
+import {usePluginData} from '@docusaurus/useGlobalData';
 import styles from './styles.module.css';
 
 export default function BlogSidebarDesktop({sidebar}) {
   const [selectedCategory, setSelectedCategory] = useState('すべて');
 
+  // カスタムブログプラグインのデータを取得
+  const blogCategoryData = usePluginData('blog-category-plugin');
+
+  // 記事のpermalinkをキーとしたカテゴリーマップを作成
+  const categoryMap = useMemo(() => {
+    const map = {};
+    if (blogCategoryData?.blogPosts) {
+      blogCategoryData.blogPosts.forEach((post) => {
+        if (post.categories && post.categories.length > 0) {
+          map[post.permalink] = post.categories;
+        }
+      });
+    }
+    return map;
+  }, [blogCategoryData]);
+
   // カテゴリーのリストを取得
   const categories = useMemo(() => {
     const categoriesSet = new Set(['すべて']);
     sidebar.items.forEach((item) => {
-      // メタデータからカテゴリーを取得
-      if (item.frontMatter?.categories) {
-        item.frontMatter.categories.forEach((cat) => categoriesSet.add(cat));
+      const postCategories = categoryMap[item.permalink];
+      if (postCategories) {
+        postCategories.forEach((cat) => categoriesSet.add(cat));
       }
     });
     return Array.from(categoriesSet);
-  }, [sidebar.items]);
+  }, [sidebar.items, categoryMap]);
 
   // 選択されたカテゴリーでフィルタリング
   const filteredItems = useMemo(() => {
     if (selectedCategory === 'すべて') {
       return sidebar.items;
     }
-    return sidebar.items.filter((item) =>
-      item.frontMatter?.categories?.includes(selectedCategory)
-    );
-  }, [sidebar.items, selectedCategory]);
+    return sidebar.items.filter((item) => {
+      const postCategories = categoryMap[item.permalink];
+      return postCategories?.includes(selectedCategory);
+    });
+  }, [sidebar.items, selectedCategory, categoryMap]);
 
   return (
     <aside className="col col--2">
