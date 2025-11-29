@@ -26,6 +26,19 @@ authors:
 - **例外処理**: 割り込みや例外フローの表現が可能
 - **階層化**: 複雑な処理をサブアクティビティとして分割可能
 
+以下は、シンプルなアクティビティ図の例です：
+
+```mermaid
+flowchart TD
+    Start((●)) --> A[タスクを開始する]
+    A --> B{条件を確認}
+    B -->|条件成立| C[処理Aを実行]
+    B -->|条件不成立| D[処理Bを実行]
+    C --> E[結果を保存]
+    D --> E
+    E --> End((◎))
+```
+
 ## フローチャートとアクティビティ図の違い
 
 フローチャートとアクティビティ図は見た目が似ていますが、その目的と表現力に大きな違いがあります。
@@ -49,17 +62,25 @@ authors:
 
 **フローチャート**では、並行処理を明示的に表現する標準的な記号がありません。処理が順番に実行されることを前提としています。
 
-**アクティビティ図**では、**フォークバー**（黒い太線）で処理を分岐させ、**ジョインバー**で合流させることで、並行処理を明確に表現できます。
-
+```mermaid
+flowchart LR
+    subgraph フローチャート
+        A1[処理A] --> B1[処理B] --> C1[処理C] --> D1[処理D]
+    end
 ```
-[フローチャート]
-処理A → 処理B → 処理C → 処理D
 
-[アクティビティ図]
-処理A → ═══ → 処理B ─┐
-            → 処理C ─┼→ ═══ → 処理D
-                     └→
-※ 処理B と 処理C は並行実行
+**アクティビティ図**では、**フォークバー**で処理を分岐させ、**ジョインバー**で合流させることで、並行処理を明確に表現できます。
+
+```mermaid
+flowchart TB
+    subgraph アクティビティ図
+        A2[処理A] --> Fork[/ 並行処理開始 /]
+        Fork --> B2[処理B]
+        Fork --> C2[処理C]
+        B2 --> Join[\ 並行処理終了 \]
+        C2 --> Join
+        Join --> D2[処理D]
+    end
 ```
 
 #### 2. 責任の分離（スイムレーン）
@@ -68,26 +89,37 @@ authors:
 
 **アクティビティ図**では、**スイムレーン**（またはパーティション）を使って、各アクティビティの担当者・担当システムを視覚的に分離できます。
 
-```
-┌─────────────┬─────────────┬─────────────┐
-│   顧客      │   システム   │   在庫管理   │
-├─────────────┼─────────────┼─────────────┤
-│ [注文する]  │             │             │
-│      │      │             │             │
-│      └─────→│[在庫確認]   │             │
-│             │      │      │             │
-│             │      └─────→│[引き当て]   │
-│             │             │      │      │
-│             │      ←─────┘      │      │
-│             │[決済処理]   │             │
-└─────────────┴─────────────┴─────────────┘
+```mermaid
+flowchart TB
+    subgraph Customer["顧客"]
+        A[注文する]
+    end
+    subgraph System["システム"]
+        B[在庫確認]
+        D[決済処理]
+    end
+    subgraph Inventory["在庫管理"]
+        C[在庫引き当て]
+    end
+
+    A --> B
+    B --> C
+    C --> D
 ```
 
 #### 3. オブジェクトフロー
 
 **フローチャート**はデータの流れを表現することが主目的ではなく、処理の流れに焦点を当てています。
 
-**アクティビティ図**では、**オブジェクトノード**（四角形）を使って、アクティビティ間で受け渡されるデータや成果物を明示できます。
+**アクティビティ図**では、**オブジェクトノード**を使って、アクティビティ間で受け渡されるデータや成果物を明示できます。
+
+```mermaid
+flowchart LR
+    A[注文を作成] --> OrderData[(注文データ)]
+    OrderData --> B[在庫を確認]
+    B --> StockResult[(在庫結果)]
+    StockResult --> C[決済を実行]
+```
 
 ## アクティビティ図の基本要素
 
@@ -95,51 +127,58 @@ authors:
 
 ### 1. 開始ノード・終了ノード
 
-```
-● 開始ノード（黒丸）
-◎ 終了ノード（二重丸）
-⊗ フロー終了ノード（丸にX）
+```mermaid
+flowchart LR
+    Start((●)) -->|開始ノード| A[処理]
+    A --> End1((◎))
+    End1 -->|終了ノード| X1[ ]
+    A --> End2((✕))
+    End2 -->|フロー終了| X2[ ]
+
+    style X1 fill:none,stroke:none
+    style X2 fill:none,stroke:none
 ```
 
-- **開始ノード**: アクティビティの開始点。1つのダイアグラムに1つ
-- **終了ノード**: アクティビティ全体の終了。すべてのフローが終了
-- **フロー終了ノード**: 特定のフローのみ終了。他のフローは継続
+- **開始ノード（●）**: アクティビティの開始点。1つのダイアグラムに1つ
+- **終了ノード（◎）**: アクティビティ全体の終了。すべてのフローが終了
+- **フロー終了ノード（✕）**: 特定のフローのみ終了。他のフローは継続
 
 ### 2. アクションノード
 
-```
-┌─────────────────┐
-│  注文を処理する   │
-└─────────────────┘
+```mermaid
+flowchart LR
+    A[注文を処理する] --> B[在庫を確認する] --> C[決済を実行する]
 ```
 
 実際の処理・作業を表す角丸四角形です。動詞を使って「何をするか」を記述します。
 
 ### 3. 決定ノード・マージノード
 
-```
-    ◇ 決定ノード（分岐）
-   ↙ ↘
- [Yes] [No]
-   ↘ ↙
-    ◇ マージノード（合流）
+```mermaid
+flowchart TD
+    A[入力を受け取る] --> Decision{条件判定}
+    Decision -->|Yes| B[処理A]
+    Decision -->|No| C[処理B]
+    B --> Merge{マージ}
+    C --> Merge
+    Merge --> D[次の処理]
 ```
 
 - **決定ノード**: ひし形で表し、条件によって処理を分岐
 - **マージノード**: 複数のフローを1つに合流
 
-### 4. フォーク・ジョイン
+### 4. フォーク・ジョイン（並行処理）
 
-```
-────────────  フォークバー（並行処理の開始）
-     │
-   ┌─┴─┐
-   ↓   ↓
- 処理A  処理B（並行実行）
-   ↓   ↓
-   └─┬─┘
-     │
-────────────  ジョインバー（並行処理の終了）
+```mermaid
+flowchart TD
+    A[前処理] --> Fork[/ フォーク：並行処理開始 /]
+    Fork --> B[処理A]
+    Fork --> C[処理B]
+    Fork --> D[処理C]
+    B --> Join[\ ジョイン：並行処理終了 \]
+    C --> Join
+    D --> Join
+    Join --> E[後処理]
 ```
 
 - **フォーク**: 1つのフローを複数の並行フローに分割
@@ -147,350 +186,370 @@ authors:
 
 ### 5. スイムレーン（パーティション）
 
-```
-┌──────────────┬──────────────┐
-│    営業部    │    経理部     │
-├──────────────┼──────────────┤
-│              │              │
-│   処理群     │    処理群    │
-│              │              │
-└──────────────┴──────────────┘
+```mermaid
+flowchart TB
+    subgraph Sales["営業部"]
+        A[見積を作成]
+        D[契約締結]
+    end
+    subgraph Finance["経理部"]
+        B[与信審査]
+        C[請求書発行]
+    end
+
+    A --> B
+    B --> D
+    D --> C
 ```
 
 責任や役割ごとにアクティビティを分離して配置します。
 
-### 6. オブジェクトノード
+### 6. オブジェクトノード（データフロー）
 
+```mermaid
+flowchart LR
+    A[注文を作成] --> Data1[(注文書\n作成済)]
+    Data1 --> B[承認を依頼]
+    B --> Data2[(注文書\n承認済)]
+    Data2 --> C[発注を実行]
 ```
-┌───────────┐
-│  注文書   │
-│  [作成済] │
-└───────────┘
-```
 
-アクティビティ間で受け渡されるデータや成果物を表します。状態を角括弧で示すことも可能です。
+アクティビティ間で受け渡されるデータや成果物を表します。状態を示すことも可能です。
 
-## Mermaidでアクティビティ図を描く
+## 基本的なアクティビティ図の例
 
-Mermaidの `flowchart` や `stateDiagram` を使ってアクティビティ図風の図を描くことができます。以下は基本的な例です。
+### 例1: シンプルな注文処理フロー
 
 ```mermaid
 flowchart TD
-    Start((●)) --> A[注文を受け付ける]
-    A --> B{在庫あり?}
-    B -->|Yes| C[商品を確保する]
-    B -->|No| D[入荷待ちに登録]
-    D --> E[顧客に通知]
-    E --> End1((◎))
-    C --> F[決済を処理する]
-    F --> G[発送準備]
-    G --> H[発送完了通知]
-    H --> End2((◎))
+    Start((●)) --> Input[注文を受け付ける]
+    Input --> Validate{入力チェック}
+    Validate -->|OK| Stock[在庫を確認]
+    Validate -->|NG| Error[エラー通知]
+    Error --> End1((◎))
+
+    Stock --> StockCheck{在庫あり?}
+    StockCheck -->|Yes| Reserve[商品を確保]
+    StockCheck -->|No| Backorder[入荷待ち登録]
+    Backorder --> Notify[顧客に通知]
+    Notify --> End2((◎))
+
+    Reserve --> Payment[決済処理]
+    Payment --> PayCheck{決済成功?}
+    PayCheck -->|Yes| Ship[発送準備]
+    PayCheck -->|No| Cancel[注文キャンセル]
+    Cancel --> End3((◎))
+
+    Ship --> Complete[発送完了通知]
+    Complete --> End4((◎))
+```
+
+### 例2: 承認ワークフロー（スイムレーン付き）
+
+```mermaid
+flowchart TB
+    subgraph Applicant["申請者"]
+        Start((●)) --> Create[申請書を作成]
+        Revise[申請を修正]
+        Done[完了通知を受領]
+        Done --> End1((◎))
+    end
+
+    subgraph Manager["上長"]
+        Review[申請を確認]
+        Decision{承認?}
+    end
+
+    subgraph Admin["管理部門"]
+        Process[処理を実行]
+        Notify[完了通知を送信]
+    end
+
+    Create --> Review
+    Review --> Decision
+    Decision -->|承認| Process
+    Decision -->|差戻し| Revise
+    Revise --> Review
+    Process --> Notify
+    Notify --> Done
+```
+
+### 例3: 並行処理を含むデータ処理
+
+```mermaid
+flowchart TD
+    Start((●)) --> Load[データを読み込む]
+    Load --> Fork1[/ 並行処理開始 /]
+
+    Fork1 --> ValidateA[フォーマット検証]
+    Fork1 --> ValidateB[整合性チェック]
+    Fork1 --> ValidateC[重複チェック]
+
+    ValidateA --> Join1[\ 並行処理終了 \]
+    ValidateB --> Join1
+    ValidateC --> Join1
+
+    Join1 --> Merge[結果をマージ]
+    Merge --> HasError{エラーあり?}
+
+    HasError -->|Yes| Report[エラーレポート生成]
+    Report --> End1((◎))
+
+    HasError -->|No| Transform[データ変換]
+    Transform --> Save[データベースに保存]
+    Save --> End2((◎))
 ```
 
 ## LLMワークフローをアクティビティ図で表現する
 
 ここからは、実際のLLM（大規模言語モデル）を活用したワークフローをアクティビティ図で表現してみます。
 
-### ユースケース: RAGベースの技術ドキュメントQ&Aシステム
+### ユースケース1: RAGベースの技術ドキュメントQ&Aシステム
 
-社内の技術ドキュメントに対して自然言語で質問し、関連情報を検索して回答を生成するRAG（Retrieval-Augmented Generation）システムを例に取ります。
-
-#### システム概要
-
-1. ユーザーが自然言語で質問を入力
-2. クエリを分析・最適化
-3. ベクトルデータベースから関連ドキュメントを検索
-4. 検索結果の関連性を評価
-5. LLMでコンテキストを踏まえた回答を生成
-6. 回答の品質をチェック
-7. ユーザーに回答を返却
-
-#### アクティビティ図（テキスト表現）
-
-```
-┌──────────────────────────────────────────────────────────────────────────┐
-│                    RAG Q&A システム アクティビティ図                       │
-├──────────────┬───────────────┬───────────────┬──────────────────────────┤
-│   ユーザー    │  クエリ処理   │  検索エンジン  │      LLM エージェント      │
-├──────────────┼───────────────┼───────────────┼──────────────────────────┤
-│      ●       │               │               │                          │
-│      │       │               │               │                          │
-│      ▼       │               │               │                          │
-│ ┌─────────┐  │               │               │                          │
-│ │質問を入力│  │               │               │                          │
-│ └────┬────┘  │               │               │                          │
-│      │       │               │               │                          │
-│      └──────→│ ┌───────────┐ │               │                          │
-│              │ │クエリ分析  │ │               │                          │
-│              │ │・意図抽出  │ │               │                          │
-│              │ │・キーワード│ │               │                          │
-│              │ └─────┬─────┘ │               │                          │
-│              │       │       │               │                          │
-│              │       ▼       │               │                          │
-│              │ ┌───────────┐ │               │                          │
-│              │ │クエリ拡張  │ │               │                          │
-│              │ │・同義語追加│ │               │                          │
-│              │ │・ベクトル化│ │               │                          │
-│              │ └─────┬─────┘ │               │                          │
-│              │       │       │               │                          │
-│              │       └──────→│ ┌───────────┐ │                          │
-│              │               │ │ベクトル検索│ │                          │
-│              │               │ └─────┬─────┘ │                          │
-│              │               │       │       │                          │
-│              │               │       ▼       │                          │
-│              │               │ ┌───────────┐ │                          │
-│              │               │ │キーワード  │ │                          │
-│              │               │ │ハイブリッド│ │                          │
-│              │               │ │検索       │ │                          │
-│              │               │ └─────┬─────┘ │                          │
-│              │               │       │       │                          │
-│              │               │       ▼       │                          │
-│              │               │   ◇ 結果 > 0? │                          │
-│              │               │   │       │   │                          │
-│              │               │ [Yes]   [No]  │                          │
-│              │               │   │       │   │                          │
-│              │               │   │       └───────→ ┌─────────────────┐   │
-│              │               │   │               │ │「該当なし」回答 │   │
-│              │               │   │               │ │生成            │   │
-│              │               │   │               │ └────────┬────────┘   │
-│              │               │   │               │          │            │
-│              │               │   ▼               │          │            │
-│              │               │ ┌───────────┐    │          │            │
-│              │               │ │関連度評価  │    │          │            │
-│              │               │ │・リランク  │    │          │            │
-│              │               │ │・スコア付与│    │          │            │
-│              │               │ └─────┬─────┘    │          │            │
-│              │               │       │          │          │            │
-│              │               │       └─────────→│ ┌─────────────────┐   │
-│              │               │                  │ │コンテキスト構築 │   │
-│              │               │                  │ │・ドキュメント   │   │
-│              │               │                  │ │  チャンク選択   │   │
-│              │               │                  │ │・プロンプト生成 │   │
-│              │               │                  │ └────────┬────────┘   │
-│              │               │                  │          │            │
-│              │               │                  │          ▼            │
-│              │               │                  │ ┌─────────────────┐   │
-│              │               │                  │ │ LLM 回答生成    │   │
-│              │               │                  │ │・GPT-4/Claude   │   │
-│              │               │                  │ │・ストリーミング │   │
-│              │               │                  │ └────────┬────────┘   │
-│              │               │                  │          │            │
-│              │               │                  │          ▼            │
-│              │               │                  │    ◇ 品質チェック     │
-│              │               │                  │    │           │      │
-│              │               │                  │  [OK]       [NG]      │
-│              │               │                  │    │           │      │
-│              │               │                  │    │     ┌─────┘      │
-│              │               │                  │    │     ▼            │
-│              │               │                  │    │ ┌─────────────┐  │
-│              │               │                  │    │ │回答を再生成 │  │
-│              │               │                  │    │ │・プロンプト │  │
-│              │               │                  │    │ │  調整      │  │
-│              │               │                  │    │ └──────┬──────┘  │
-│              │               │                  │    │        │         │
-│              │               │                  │    ◇←───────┘         │
-│              │               │                  │    │                  │
-│      ←──────────────────────────────────────────────┘                   │
-│      │       │               │                  │                       │
-│      ▼       │               │                  │                       │
-│ ┌─────────┐  │               │                  │                       │
-│ │回答を表示│  │               │                  │                       │
-│ └────┬────┘  │               │                  │                       │
-│      │       │               │                  │                       │
-│      ▼       │               │                  │                       │
-│      ◎      │               │                  │                       │
-└──────────────┴───────────────┴───────────────┴──────────────────────────┘
-```
-
-#### Mermaid での表現
+社内の技術ドキュメントに対して自然言語で質問し、関連情報を検索して回答を生成するRAG（Retrieval-Augmented Generation）システムです。
 
 ```mermaid
 flowchart TB
     subgraph User["ユーザー"]
         Start((●)) --> Input[質問を入力]
-        Display[回答を表示] --> End1((◎))
+        Display[回答を表示]
+        Display --> Feedback{満足?}
+        Feedback -->|Yes| End1((◎))
+        Feedback -->|No| Input
     end
 
-    subgraph QueryProcessor["クエリ処理"]
-        Input --> Analyze[クエリ分析\n・意図抽出\n・キーワード抽出]
-        Analyze --> Expand[クエリ拡張\n・同義語追加\n・ベクトル化]
+    subgraph QueryProcessor["クエリ処理エンジン"]
+        Input --> Analyze[クエリ分析]
+        Analyze --> Intent[意図抽出]
+        Intent --> Keywords[キーワード抽出]
+        Keywords --> Expand[クエリ拡張]
+        Expand --> Synonyms[同義語追加]
+        Synonyms --> Vectorize[ベクトル化]
     end
 
     subgraph SearchEngine["検索エンジン"]
-        Expand --> VectorSearch[ベクトル検索]
-        VectorSearch --> HybridSearch[ハイブリッド検索\n・キーワード検索併用]
-        HybridSearch --> ResultCheck{結果 > 0?}
-        ResultCheck -->|Yes| Rerank[関連度評価\n・リランキング]
+        Vectorize --> VectorSearch[ベクトル検索]
+        VectorSearch --> KeywordSearch[キーワード検索]
+        KeywordSearch --> HybridMerge[ハイブリッドマージ]
+        HybridMerge --> ResultCheck{結果あり?}
+        ResultCheck -->|Yes| Rerank[リランキング]
+        Rerank --> TopK[Top-K選択]
     end
 
-    subgraph LLMAgent["LLM エージェント"]
+    subgraph LLMAgent["LLMエージェント"]
         ResultCheck -->|No| NoResult[該当なし回答生成]
-        Rerank --> BuildContext[コンテキスト構築\n・チャンク選択\n・プロンプト生成]
-        BuildContext --> Generate[LLM回答生成\n・ストリーミング]
-        Generate --> QualityCheck{品質チェック}
-        QualityCheck -->|NG| Regenerate[回答再生成\n・プロンプト調整]
-        Regenerate --> QualityCheck
-        QualityCheck -->|OK| Display
+        TopK --> BuildContext[コンテキスト構築]
+        BuildContext --> PromptGen[プロンプト生成]
+        PromptGen --> Generate[LLM回答生成]
+        Generate --> Stream[ストリーミング出力]
+        Stream --> QualityCheck{品質OK?}
+        QualityCheck -->|NG| Regenerate[プロンプト調整]
+        Regenerate --> Generate
+        QualityCheck -->|OK| AddSources[参照元を付与]
         NoResult --> Display
+        AddSources --> Display
     end
 ```
 
-### ユースケース: AIコードレビューエージェント
+### ユースケース2: AIコードレビューエージェント
 
 プルリクエストが作成されたときに自動でコードレビューを行うAIエージェントのワークフローです。
 
-#### システム概要
-
-1. PRの変更差分を取得
-2. 変更ファイルを分類（言語、変更種別）
-3. 並行して複数の観点でレビュー実行
-   - セキュリティチェック
-   - コード品質チェック
-   - パフォーマンス分析
-4. レビュー結果を統合
-5. コメントを生成してPRに投稿
-
-#### アクティビティ図（Mermaid）
-
 ```mermaid
 flowchart TB
-    Start((●)) --> GetDiff[PR差分を取得]
-    GetDiff --> ParseFiles[変更ファイルを解析\n・言語判定\n・変更種別分類]
+    Start((●)) --> Trigger[PRイベント受信]
+    Trigger --> GetDiff[PR差分を取得]
+    GetDiff --> ParseFiles[変更ファイルを解析]
+    ParseFiles --> Classify[言語・種別を分類]
 
-    ParseFiles --> Fork1[/並行処理開始/]
+    Classify --> Fork1[/ 並行レビュー開始 /]
 
-    Fork1 --> Security[セキュリティレビュー\n・脆弱性検出\n・シークレット検出]
-    Fork1 --> Quality[品質レビュー\n・コード規約\n・複雑度分析]
-    Fork1 --> Performance[パフォーマンス分析\n・N+1検出\n・リソース使用]
+    subgraph SecurityReview["セキュリティレビュー"]
+        Fork1 --> S1[脆弱性パターン検出]
+        S1 --> S2[シークレット検出]
+        S2 --> S3[依存関係チェック]
+        S3 --> SecurityResult[(セキュリティ指摘)]
+    end
 
-    Security --> SecurityResult[セキュリティ\n指摘事項]
-    Quality --> QualityResult[品質\n指摘事項]
-    Performance --> PerfResult[パフォーマンス\n指摘事項]
+    subgraph QualityReview["品質レビュー"]
+        Fork1 --> Q1[コード規約チェック]
+        Q1 --> Q2[複雑度分析]
+        Q2 --> Q3[重複コード検出]
+        Q3 --> QualityResult[(品質指摘)]
+    end
 
-    SecurityResult --> Join1[\並行処理終了\]
+    subgraph PerfReview["パフォーマンスレビュー"]
+        Fork1 --> P1[N+1クエリ検出]
+        P1 --> P2[メモリ使用分析]
+        P2 --> P3[アルゴリズム効率]
+        P3 --> PerfResult[(パフォーマンス指摘)]
+    end
+
+    SecurityResult --> Join1[\ 並行レビュー終了 \]
     QualityResult --> Join1
     PerfResult --> Join1
 
-    Join1 --> Aggregate[レビュー結果を統合\n・重複排除\n・優先度付け]
+    Join1 --> Aggregate[結果を統合]
+    Aggregate --> Dedupe[重複を排除]
+    Dedupe --> Prioritize[優先度付け]
 
-    Aggregate --> HasIssues{指摘あり?}
-
-    HasIssues -->|Yes| GenerateComments[コメント生成\n・行ごとのコメント\n・サマリー作成]
+    Prioritize --> HasIssues{指摘あり?}
+    HasIssues -->|Yes| GenComments[コメント生成]
     HasIssues -->|No| Approve[承認コメント生成]
 
-    GenerateComments --> PostToPR[PRにコメント投稿]
-    Approve --> PostToPR
+    GenComments --> FormatComments[行コメント形式に整形]
+    FormatComments --> Summary[サマリー作成]
+    Summary --> Post[PRに投稿]
+    Approve --> Post
 
-    PostToPR --> End1((◎))
+    Post --> End1((◎))
 ```
 
-### ユースケース: マルチエージェント文書作成システム
+### ユースケース3: マルチエージェント文書作成システム
 
 複数のAIエージェントが協調して技術文書を作成するワークフローです。
 
-#### システム概要
-
-1. ユーザーが文書の要件を入力
-2. プランナーエージェントが構成を計画
-3. 並行してセクションごとに執筆
-4. エディターエージェントがレビュー・校正
-5. 最終文書を生成
-
-#### アクティビティ図（Mermaid）
-
 ```mermaid
 flowchart TB
-    Start((●)) --> Requirements[要件を入力\n・トピック\n・対象読者\n・文書形式]
+    Start((●)) --> Requirements[要件入力]
 
     subgraph Planner["プランナーエージェント"]
-        Requirements --> Analyze[要件分析\n・スコープ定義]
-        Analyze --> Outline[アウトライン生成\n・章立て決定]
-        Outline --> TaskAssign[タスク分割\n・セクション割当]
+        Requirements --> AnalyzeReq[要件分析]
+        AnalyzeReq --> DefineScope[スコープ定義]
+        DefineScope --> CreateOutline[アウトライン生成]
+        CreateOutline --> AssignTasks[タスク割り当て]
     end
 
-    TaskAssign --> Fork2[/並行処理開始/]
+    AssignTasks --> Fork2[/ 並行執筆開始 /]
 
     subgraph Writers["ライターエージェント群"]
-        Fork2 --> Writer1[ライター1\n導入部執筆]
-        Fork2 --> Writer2[ライター2\n本論執筆]
-        Fork2 --> Writer3[ライター3\n実装例執筆]
-        Fork2 --> Writer4[ライター4\n まとめ執筆]
+        Fork2 --> W1[導入部\nライター]
+        Fork2 --> W2[技術詳細\nライター]
+        Fork2 --> W3[実装例\nライター]
+        Fork2 --> W4[まとめ\nライター]
+
+        W1 --> D1[(導入ドラフト)]
+        W2 --> D2[(詳細ドラフト)]
+        W3 --> D3[(実装例ドラフト)]
+        W4 --> D4[(まとめドラフト)]
     end
 
-    Writer1 --> Draft1[導入部ドラフト]
-    Writer2 --> Draft2[本論ドラフト]
-    Writer3 --> Draft3[実装例ドラフト]
-    Writer4 --> Draft4[まとめドラフト]
-
-    Draft1 --> Join2[\並行処理終了\]
-    Draft2 --> Join2
-    Draft3 --> Join2
-    Draft4 --> Join2
+    D1 --> Join2[\ 並行執筆終了 \]
+    D2 --> Join2
+    D3 --> Join2
+    D4 --> Join2
 
     subgraph Editor["エディターエージェント"]
         Join2 --> Merge[ドラフト統合]
-        Merge --> Review[レビュー実施\n・一貫性チェック\n・文体統一]
-        Review --> EditCheck{修正必要?}
-        EditCheck -->|Yes| Revise[修正指示生成]
-        Revise --> Fork3[/並行処理開始/]
-        Fork3 --> Writer1
-        Fork3 --> Writer2
-        Fork3 --> Writer3
-        Fork3 --> Writer4
-        EditCheck -->|No| Polish[最終校正\n・誤字脱字\n・フォーマット]
+        Merge --> ConsistencyCheck[一貫性チェック]
+        ConsistencyCheck --> StyleUnify[文体統一]
+        StyleUnify --> ReviewResult{修正必要?}
+        ReviewResult -->|Yes| GenFeedback[フィードバック生成]
+        ReviewResult -->|No| FinalEdit[最終校正]
     end
 
-    Polish --> Generate[最終文書生成]
-    Generate --> Output[文書を出力]
+    GenFeedback --> Fork3[/ 修正指示配布 /]
+    Fork3 --> W1
+    Fork3 --> W2
+    Fork3 --> W3
+    Fork3 --> W4
+
+    subgraph Finalizer["ファイナライザー"]
+        FinalEdit --> FormatDoc[フォーマット整形]
+        FormatDoc --> AddTOC[目次生成]
+        AddTOC --> AddMeta[メタデータ付与]
+        AddMeta --> Export[文書エクスポート]
+    end
+
+    Export --> Output[完成文書を出力]
     Output --> End2((◎))
 ```
 
-### ユースケース: 自律型問題解決エージェント（ReActパターン）
+### ユースケース4: 自律型問題解決エージェント（ReActパターン）
 
 LLMが自律的に思考・行動・観察を繰り返して問題を解決するReAct（Reasoning and Acting）パターンのワークフローです。
 
-#### システム概要
+```mermaid
+flowchart TB
+    Start((●)) --> TaskInput[タスク入力]
+    TaskInput --> InitContext[コンテキスト初期化]
 
-1. ユーザーがタスクを入力
-2. エージェントが思考（Reasoning）
-3. 行動を選択・実行（Acting）
-4. 結果を観察（Observation）
-5. 目標達成まで2-4を繰り返し
+    subgraph ReActLoop["ReActループ"]
+        InitContext --> Think[思考 - Reasoning]
+        Think --> PlanAction[アクション計画]
+        PlanAction --> SelectTool{ツール選択}
 
-#### アクティビティ図（Mermaid）
+        SelectTool -->|Web検索| WebSearch[Web検索実行]
+        SelectTool -->|計算| Calculator[計算実行]
+        SelectTool -->|コード| CodeExec[コード実行]
+        SelectTool -->|API| APICall[API呼び出し]
+        SelectTool -->|ファイル| FileOp[ファイル操作]
+        SelectTool -->|完了| FinalAnswer[最終回答生成]
+
+        WebSearch --> Observe[観察 - Observation]
+        Calculator --> Observe
+        CodeExec --> Observe
+        APICall --> Observe
+        FileOp --> Observe
+
+        Observe --> ParseResult[結果解析]
+        ParseResult --> UpdateContext[コンテキスト更新]
+        UpdateContext --> GoalCheck{目標達成?}
+
+        GoalCheck -->|No| LimitCheck{試行上限?}
+        LimitCheck -->|No| Think
+        LimitCheck -->|Yes| Timeout[タイムアウト処理]
+        GoalCheck -->|Yes| FinalAnswer
+    end
+
+    Timeout --> PartialResult[途中結果をまとめる]
+    PartialResult --> Output
+
+    FinalAnswer --> Explain[思考過程を説明]
+    Explain --> AddReferences[参考情報を付与]
+    AddReferences --> Output[回答を出力]
+
+    Output --> End3((◎))
+```
+
+### ユースケース5: LLM評価パイプライン（LLM-as-Judge）
+
+LLMの出力品質を別のLLMで評価するパイプラインです。
 
 ```mermaid
 flowchart TB
-    Start((●)) --> TaskInput[タスク入力\n・目標設定\n・制約条件]
+    Start((●)) --> LoadTestCases[テストケース読み込み]
+    LoadTestCases --> Fork1[/ 並行評価開始 /]
 
-    TaskInput --> Think[思考 - Reasoning\n・現状分析\n・次のアクション検討\n・ツール選択]
+    subgraph Evaluation["評価パイプライン"]
+        Fork1 --> TC1[テストケース1]
+        Fork1 --> TC2[テストケース2]
+        Fork1 --> TC3[テストケースN]
 
-    Think --> SelectAction{アクション選択}
+        TC1 --> Gen1[対象LLMで生成]
+        TC2 --> Gen2[対象LLMで生成]
+        TC3 --> Gen3[対象LLMで生成]
 
-    SelectAction -->|検索| Search[Web検索実行]
-    SelectAction -->|計算| Calculate[計算実行]
-    SelectAction -->|コード実行| Execute[コード実行]
-    SelectAction -->|API呼出| APICall[API呼び出し]
-    SelectAction -->|完了| FinalAnswer[最終回答生成]
+        Gen1 --> Judge1[Judge LLMで評価]
+        Gen2 --> Judge2[Judge LLMで評価]
+        Gen3 --> Judge3[Judge LLMで評価]
 
-    Search --> Observe[観察 - Observation\n・結果の解釈\n・情報の抽出]
-    Calculate --> Observe
-    Execute --> Observe
-    APICall --> Observe
+        Judge1 --> Score1[(スコア1)]
+        Judge2 --> Score2[(スコア2)]
+        Judge3 --> Score3[(スコアN)]
+    end
 
-    Observe --> GoalCheck{目標達成?}
+    Score1 --> Join1[\ 並行評価終了 \]
+    Score2 --> Join1
+    Score3 --> Join1
 
-    GoalCheck -->|No| CheckLimit{試行回数\n上限?}
-    CheckLimit -->|No| Think
-    CheckLimit -->|Yes| Timeout[タイムアウト\n・途中結果報告]
+    Join1 --> Aggregate[スコア集計]
+    Aggregate --> CalcMetrics[メトリクス計算]
+    CalcMetrics --> GenReport[レポート生成]
 
-    GoalCheck -->|Yes| FinalAnswer
-
-    FinalAnswer --> Output[回答出力\n・思考過程の説明\n・参考情報の提示]
-    Timeout --> Output
-
-    Output --> End3((◎))
+    GenReport --> Visualize[グラフ生成]
+    Visualize --> Export[結果エクスポート]
+    Export --> End1((◎))
 ```
 
 ## アクティビティ図を書くときのベストプラクティス
@@ -499,43 +558,102 @@ flowchart TB
 
 アクティビティは適切な粒度で記述します。細かすぎると複雑になり、粗すぎると意味がなくなります。
 
+```mermaid
+flowchart LR
+    subgraph Bad["❌ 細かすぎる"]
+        A1[変数初期化] --> A2[ループ開始] --> A3[条件評価] --> A4[...]
+    end
 ```
-❌ 悪い例（細かすぎる）
-「変数を初期化」→「ループを開始」→「条件を評価」→...
 
-✅ 良い例（適切な粒度）
-「注文データを検証」→「在庫を確認」→「決済を処理」→...
+```mermaid
+flowchart LR
+    subgraph Good["✅ 適切な粒度"]
+        B1[注文データ検証] --> B2[在庫確認] --> B3[決済処理]
+    end
 ```
 
 ### 2. 動詞から始める命名
 
 アクティビティ名は「何をするか」がわかるように動詞から始めます。
 
-```
-❌ 悪い例: 「注文」「在庫」「決済」
-✅ 良い例: 「注文を処理する」「在庫を確認する」「決済を実行する」
+```mermaid
+flowchart TB
+    subgraph Bad["❌ 名詞のみ"]
+        direction LR
+        X1[注文] --> X2[在庫] --> X3[決済]
+    end
+    subgraph Good["✅ 動詞で開始"]
+        direction LR
+        Y1[注文を処理する] --> Y2[在庫を確認する] --> Y3[決済を実行する]
+    end
 ```
 
-### 3. スイムレーンを活用する
+### 3. スイムレーンで責任を明確に
 
-責任の所在が重要な場合は、必ずスイムレーンを使って明確にします。特にシステム間連携や部門をまたぐ業務フローで有効です。
+責任の所在が重要な場合は、必ずスイムレーンを使って明確にします。
+
+```mermaid
+flowchart TB
+    subgraph Frontend["フロントエンド"]
+        A[リクエスト送信]
+        E[レスポンス表示]
+    end
+    subgraph Backend["バックエンド"]
+        B[リクエスト受信]
+        C[ビジネスロジック実行]
+        D[レスポンス返却]
+    end
+
+    A --> B --> C --> D --> E
+```
 
 ### 4. 並行処理を明示する
 
-処理が並行実行できる場合は、フォーク/ジョインを使って明示します。これにより、最適化の余地やボトルネックが可視化されます。
+処理が並行実行できる場合は、フォーク/ジョインを使って明示します。
+
+```mermaid
+flowchart TD
+    A[データ受信] --> Fork[/ 並行処理 /]
+    Fork --> B[検証処理]
+    Fork --> C[ログ記録]
+    Fork --> D[通知送信]
+    B --> Join[\ 同期 \]
+    C --> Join
+    D --> Join
+    Join --> E[完了処理]
+```
 
 ### 5. 例外フローを忘れない
 
-正常系だけでなく、エラー時やタイムアウト時のフローも記述します。特にシステム設計では重要です。
+正常系だけでなく、エラー時やタイムアウト時のフローも記述します。
+
+```mermaid
+flowchart TD
+    A[処理開始] --> B[外部API呼び出し]
+    B --> C{成功?}
+    C -->|Yes| D[結果を処理]
+    C -->|No| E{リトライ可能?}
+    E -->|Yes| F[待機してリトライ]
+    F --> B
+    E -->|No| G[エラーログ記録]
+    G --> H[フォールバック処理]
+    D --> I[完了]
+    H --> I
+```
 
 ## まとめ
 
 アクティビティ図は、システムやビジネスプロセスの振る舞いを視覚化する強力なツールです。フローチャートと比較して、以下の点で優れています：
 
-- **並行処理**をフォーク/ジョインで明確に表現
-- **責任の分離**をスイムレーンで可視化
-- **オブジェクトの流れ**を明示的に表現
-- **UML標準**に準拠し、設計ドキュメントとして一貫性を保てる
+```mermaid
+flowchart LR
+    subgraph Advantages["アクティビティ図の利点"]
+        A[並行処理を\nフォーク/ジョインで表現]
+        B[責任の分離を\nスイムレーンで可視化]
+        C[データの流れを\nオブジェクトノードで表現]
+        D[UML標準に準拠]
+    end
+```
 
 LLMを活用したシステムでは、複数のエージェントが並行して動作したり、思考・行動・観察のループが発生したりと、複雑なワークフローになりがちです。アクティビティ図を使うことで、これらの複雑な処理フローを明確に可視化し、チーム内での認識を揃えることができます。
 
