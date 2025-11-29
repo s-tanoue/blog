@@ -153,7 +153,7 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-    subgraph リフレッシュトークン = メンバーズカード
+    subgraph refresh[リフレッシュトークン = メンバーズカード]
     A[有効期限: 長い<br>数日〜数ヶ月]
     B[用途: 新しいアクセストークン取得]
     C[特徴: たまにしか使わない]
